@@ -1,7 +1,7 @@
 import React from "react";
 import ConfirmInput from "../../components/ConfirmInput";
-import { View, StyleSheet, StatusBar, ImageBackground, BackHandler } from 'react-native';
-import { withTheme, Card, Button, Text, HelperText } from "react-native-paper";
+import { View, StyleSheet, StatusBar, ImageBackground, BackHandler, Image } from 'react-native';
+import { withTheme, Card, Button, Text, HelperText, FAB, ActivityIndicator } from "react-native-paper";
 import { connect } from 'react-redux';
 import CircleCountDown from "../../components/CircleCountDown";
 import Constants from 'expo-constants';
@@ -108,6 +108,11 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
 
                         <ScreenNavBar screenName="otp" navigation={navigation} icon="check-circle-outline" />
 
+                        <Image 
+                            style={styles(theme).illustrationImage}
+                            source={require('../../../assets/images/screens/login/otp.png')}
+                        />
+
                         <View style={{ padding: 13 }}>
                             <ConfirmInput
                                 code={this.state.otpCode} 
@@ -115,12 +120,10 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                                 theme={theme}
                             />
                             <Text></Text>
-                            <Text></Text>
-                            <Text></Text>
 
                             <View>
                             
-                                <Button
+                                {/* <Button
                                     icon="check-circle-outline" 
                                     mode="contained"
                                     loading={this.state.isLoading}
@@ -129,7 +132,11 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                                     onPress={() => this.authenticate() }>
                                     { translation?.t('messages.confirm') }
 
-                                </Button>
+                                </Button> */}
+
+                                <HelperText type="info" visible={true}>Vérifiez vos SMS ou votre boite email.</HelperText>
+
+                                <ActivityIndicator animating={this.state.isLoading} />
 
                                 {
                                     this.state.errors?.map((error, index) => {
@@ -143,7 +150,7 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                                     })
                                 }
 
-                                <View style={{ marginTop:50 }}>
+                                <View style={{ marginTop:30 }}>
                                     <Text style={{ textAlign: "center" , color: theme.dark ? "#000" : theme.colors.text}}>{ translation?.t('messages.screens.otp.noOTP') } ? </Text>
                                 </View>
                                 <Text></Text>
@@ -157,7 +164,7 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                                 <Button 
                                     mode="outlined"
                                     color={theme.colors.accent}
-                                    style={{ marginTop: 25, borderColor: theme.colors.accent }} 
+                                    style={{ borderColor: theme.colors.accent }} 
                                     disabled={this.state.isResendDisabled}
                                     loading={this.state.isResendLoading}
                                     onPress={() => this.resendOtpCode()}>
@@ -165,6 +172,12 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                                 </Button>
                             </View>
                         </View>
+                        <FAB
+                            icon="check-outline"
+                            style={styles(theme).fab}
+                            onPress={() => this.authenticate() }
+                            disabled={this.state.otpCode !== null && this.state.otpCode.length == 5 && this.state.isLoading == false ? false : true}
+                        />
                     </ImageBackground>
                 </Card>
             </View>
@@ -190,6 +203,18 @@ const styles = (theme: ReturnType<typeof appTheme>) => StyleSheet.create({
         height: 80,
         backgroundColor: theme.colors.primary,
         flexDirection: "row"
+    },
+    illustrationImage:{
+        width: "100%",
+        height: 180,
+        resizeMode: "cover"
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 50,
+        backgroundColor: theme.colors.primary
     },
 });
 

@@ -3,15 +3,15 @@
         "failed": "These credentials do not match our records.",
         "throttle": "Too many login attempts. Please wait before retrying.",
         "otpSent": "We have sent you a validation code by sms!.",
-        "confirmPhone": "Un code de validation sera envoyé à ce numéro, continuer",
+        "confirmPhone": "Un code de validation sera envoyé à ce numéro ou à votre adresse email, continuer",
         "checkPhone": "Verifiez votre numero",
         "resendOTP": "renvoyer le code otp"
     },
     "messages": {
         "screens": {
             "onboarding": {
-                "title": "lorem ipsum dolor sum fr",
-                "description": "lorem ipsum dolor sum lorem ipsum dolor sum lorem ipsum dolor sum lorem ipsum dolor sum"
+                "title": "Tracker vos colis",
+                "description": "vous permet de tracker votre colis de la commande jusqu'a la livraison de maniere simple."
             },
             "login": {
                 "title": "Authentification",
@@ -43,6 +43,18 @@
             "lang": {
                 "title": "Votre langue",
                 "description": "Choisissez une langue que vous préféré"
+            },
+            "orderDetails": {
+                "title": "Details du colis",
+                "description": "Details  de votre colis"
+            },
+            "orderTimeline": {
+                "title": "Historique du colis",
+                "description": "L'historique de votre colis"
+            },
+            "checkout": {
+                "title": "Paiement",
+                "description": "complétez votre paiement"
             }
         },
         "submit": "Envoyer",
@@ -54,10 +66,13 @@
         "lastName": "Prenom",
         "RecordingCompleted": "Enregistrement reussi",
         "and": "et",
+        "getStarted": "Commencer",
+        "skip": "Passer",
         "confirm": "Confirmer",
         "cancel": "Annuler",
         "required": "Obligatoire",
         "not": "non",
+        "addPayMode": "Ajouter un moyen de paiement",
         "languages": {
             "en": "Anglais",
             "fr": "Français"

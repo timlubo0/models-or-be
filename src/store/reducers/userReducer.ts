@@ -1,7 +1,7 @@
 import { User } from "../interfaces/ReducersInterfaces";
 
 export enum UserActionType{
-    REGISTER_USER = 'REGISTER_USER',
+  REGISTER_USER = 'REGISTER_USER',
 }
 
 export interface UserActionProps{

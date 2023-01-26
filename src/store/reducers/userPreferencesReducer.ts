@@ -1,7 +1,7 @@
 import { Preferences } from "../interfaces/ReducersInterfaces";
 
 export enum UserPreferencesActionType{
-    ADD = 'ADD',
+  ADD = 'ADD',
 }
 
 export interface UserPreferencesActionProps{

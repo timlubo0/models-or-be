@@ -15,7 +15,7 @@ i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources,
   //language to use if translations in user language are not available
-  fallbackLng: "en",
+  fallbackLng: "fr",
   interpolation: {
     escapeValue: false, // not needed for react!!
   },

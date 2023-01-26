@@ -7,7 +7,8 @@ export interface User{
     password?: string;
     accessToken?: string;
     roleId?: number;
-    role?: {id: number; uid: number; name: string; slug: string}
+    role?: {id: number; uid: number; name: string; slug: string};
+    customerId?: number;
 }
 
 export interface Preferences{

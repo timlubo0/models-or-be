@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, ImageBackground, BackHandler } from 'react-native';
-import { withTheme, Card, Button, Text, TextInput, HelperText } from "react-native-paper";
+import { View, StyleSheet, StatusBar, ImageBackground, BackHandler, Image } from 'react-native';
+import { withTheme, Card, Button, Text, TextInput, HelperText, FAB, ActivityIndicator } from "react-native-paper";
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { ScreenProps } from "../../interfaces/ScreenPropsInterface";
@@ -98,6 +98,11 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
                         style={{ width: "100%", height: "106%" }}>
 
                         <ScreenNavBar screenName="register" navigation={navigation} icon="account-plus-outline" />
+
+                        <Image 
+                            style={styles(theme).illustrationImage}
+                            source={require('../../../assets/images/screens/login/illustration2.png')}
+                        />
                         
                         <View style={{ padding: 13 }}>
                             <TextInput
@@ -108,7 +113,7 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
                             />
                             <Text></Text>
                             <TextInput
-                                label={`${ translation?.t('messages.email') }(${ translation?.t('messages.not') } ${ translation?.t('messages.required') })`}
+                                label={`${ translation?.t('messages.email') }...`}
                                 mode="outlined"
                                 value={this.state.email}
                                 onChangeText={text => this.setState({ email: text })}
@@ -125,22 +130,15 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
                                     )
                                 })
                             }
-                            <Text></Text>
-                            <Text></Text>
-                            <View>
-                                <Button
-                                    icon="login" 
-                                    mode="contained"
-                                    style={{ marginTop: -25, padding: 6,backgroundColor:theme.colors.primary }} 
-                                    labelStyle={{ color: "#fff" }}
-                                    loading={this.state.isLoading}
-                                    disabled={this.state.username == null && true}
-                                    onPress={() => this.register() }>
-                                    { translation?.t('messages.confirm') }
-
-                                </Button>
-                            </View>
+                            <HelperText type="info" visible={true}>Rassurez-vouz que votre email est valide, vous recevrez un SMS ou email au cas ou un compte existe avec une adresse email rattaché à ce numero.</HelperText>
+                            <ActivityIndicator animating={this.state.isLoading} />
                         </View>
+                        <FAB
+                            icon="arrow-right-circle-outline"
+                            style={styles(theme).fab}
+                            onPress={() => this.register() }
+                            disabled={(this.state.username == null || this.state.isLoading) && true}
+                        />
                     </ImageBackground>
                 </Card>
             </View>
@@ -170,7 +168,19 @@ const styles = (theme: ReturnType<typeof appTheme>) => StyleSheet.create({
         height: 80,
         backgroundColor: theme.colors.primary,
         flexDirection: "row"
-    }
+    },
+    illustrationImage:{
+        width: "100%",
+        height: 180,
+        resizeMode: "cover"
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 70,
+        backgroundColor: theme.colors.primary
+    },
   });
 
   const mapStateToProps = (state: RootState) => {

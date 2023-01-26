@@ -7,10 +7,13 @@ interface SelectPickerProps{
     isVisible: boolean;
     onPickerDismiss: () => void;
     onSelect: (value: any) => void;
+    displayValue?: string;
+    description?: string
 }
 
 
-function SelectPicker({ data, isVisible, onPickerDismiss, onSelect }: SelectPickerProps){
+function SelectPicker({ data, isVisible, onPickerDismiss, onSelect, displayValue = 'name', description = '' }: SelectPickerProps){
+
     return(
         <Provider>
             <View>
@@ -24,7 +27,8 @@ function SelectPicker({ data, isVisible, onPickerDismiss, onSelect }: SelectPick
                                         return(
                                             <View key={index}>
                                                 <List.Item
-                                                    title={value.name}
+                                                    title={description !== '' ? value.payMode.name : ''}
+                                                    description={value[displayValue]}
                                                     onPress={() => onSelect(value)}
                                                 />
                                                 <Divider/>

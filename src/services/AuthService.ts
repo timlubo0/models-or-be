@@ -60,7 +60,8 @@ class AuthService{
                 phone: response.user.phone,
                 roleId: response.user.role_id,
                 accessToken: response.access_token,
-                role: response.user.role
+                role: response.user.role,
+                customerId: response.user?.customer_id
             };
 
             await this.localStorage.storeData(this.storageKey, user);

@@ -1,8 +1,7 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground, Image } from "react-native";
-import { withTheme, Card, Text, Button, Paragraph, Title } from "react-native-paper";
+import { withTheme, Card, Text, Button, Paragraph, Title, FAB } from "react-native-paper";
 import * as Animatable from 'react-native-animatable';
-const appConfig = require('../../../../app.json');
 import { OnboardingProps } from "../../../interfaces/OnboardingInterface";
 import appTheme from "../../../theme/appTheme";
 import { ScreenProps } from "../../../interfaces/ScreenPropsInterface";
@@ -36,24 +35,26 @@ class OnBoarding extends React.Component<OnBoardingProps, {activeIndex: number}>
                                     source={illustration}
                                     style={{margin: -80, resizeMode: 'contain', height: 600}}
                                 />
-                                <Title style={{ marginTop: -80, fontWeight: "bold", color: '#091E58' }}>{title}</Title>
+                                <Title style={{ marginTop: -40, fontWeight: "bold", color: '#091E58' }}>{title}</Title>
                                 <Paragraph style={{ textAlign:"center", padding: 25, color: theme.dark ? "#000" : theme.colors.text }}>{description}</Paragraph>
                                 
                             </View>
                             
                         </Animatable.View>
 
-                        <View style={{ alignItems: 'center', paddingVertical: 25 }}>
-                            <Button 
-                                mode="contained"
-                                color={theme.colors.primary}
-                                style={{ width: "70%", borderRadius: 20, marginTop: -25, padding: 6 }} 
-                                onPress={() => navigation.navigate("LoginScreen")}>
-                                {  translation?.t('messages.getStarted') }
-                            </Button>
-                        </View>
+                        <FAB
+                            icon="arrow-right-circle-outline"
+                            style={styles(theme).fab}
+                            onPress={() => navigation.navigate("LoginScreen")}
+                        />
 
-                        <Text style={ styles(theme).appNameText }>{appConfig.expo.name}</Text>
+                        <Button 
+                            mode="outlined"
+                            color={theme.colors.primary}
+                            style={styles(theme).skipButton} 
+                            onPress={() => navigation.navigate("LoginScreen")}>
+                            {  translation?.t('messages.skip') }
+                        </Button>
                     </ImageBackground>
                 </Card>
                 
@@ -86,6 +87,20 @@ const styles = (theme: ReturnType<typeof appTheme>) => StyleSheet.create({
         width: "100%", 
         height: "108%",
         resizeMode: 'cover'
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
+        backgroundColor: theme.colors.primary
+    },
+    skipButton: {
+        position: 'absolute',
+        margin: 16,
+        left: 0,
+        bottom: 0,
+        borderRadius: 15
     },
 
 });

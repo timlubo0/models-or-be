@@ -16,7 +16,7 @@ class LocalStorage extends Component {
     }
   }
 
-  getData = async (key: string) => {
+  getData = async (key: string): Promise<any> => {
     try {
       let data: string | null = await AsyncStorage.getItem(key);
       data = (data !== null) ? JSON.parse(data) : null;

@@ -10,8 +10,8 @@
     "messages": {
         "screens": {
             "onboarding": {
-                "title": "lorem ipsum dolor sum en",
-                "description": "lorem ipsum dolor sum lorem ipsum dolor sum lorem ipsum dolor sum lorem ipsum dolor sum"
+                "title": "Track your parcels",
+                "description": "allows you to track your package from order to delivery in a simple way."
             },
             "login": {
                 "title": "Authentication",
@@ -43,6 +43,18 @@
             "lang": {
                 "title": "Your language",
                 "description": "choose a language you prefer"
+            },
+            "orderDetails": {
+                "title": "Parcel details",
+                "description": "Your parcel details"
+            },
+            "orderTimeline": {
+                "title": "Parcel History",
+                "description": "Your parcel history"
+            },
+            "checkout": {
+                "title": "Payment",
+                "description": "complete your payment"
             }
         },
         "submit": "Send",
@@ -55,10 +67,12 @@
         "RecordingCompleted": "Recording completed",
         "and": "and",
         "getStarted": "Get started",
+        "skip": "Skip",
         "confirm": "Confirm",
         "cancel": "cancel",
         "required": "Required",
         "not": "no",
+        "addPayMode": "Add a payment method",
         "languages": {
             "en": "English",
             "fr": "French"

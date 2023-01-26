@@ -1,3 +1,5 @@
+import { IOrder } from "../../screens/order/types/types";
+
 export type RootStackParamList = {
     SplashScreen: undefined;
     OnBoardingScreen: undefined;
@@ -8,4 +10,8 @@ export type RootStackParamList = {
     HomeScreen: undefined;
     AccountScreen: undefined;
     LanguagePickerScreen: undefined;
+    OrderDetailsScreen: { order: IOrder };
+    TimelineScreen: { order: IOrder };
+    NewPayModeScreen: undefined;
+    PaymentPushScreen: { order: IOrder };
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import PhoneInput from "react-native-phone-number-input";
-import { View, StyleSheet, StatusBar, ImageBackground, BackHandler } from 'react-native';
-import { withTheme, Card, Button, Text, Paragraph, HelperText } from "react-native-paper";
+import { View, StyleSheet, StatusBar, ImageBackground, BackHandler, Image } from 'react-native';
+import { withTheme, Card, Text, Paragraph, HelperText, FAB, ActivityIndicator } from "react-native-paper";
 import DialogModal from "../../components/DialogModal";
 import Constants from 'expo-constants';
 import { LoginScreenState } from "../../interfaces/AuthInterface";
@@ -97,8 +97,14 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                         style={{ width: "100%", height: "106%" }}>
 
                         <ScreenNavBar screenName="login" navigation={navigation} icon="login" />
+
+                        <Image 
+                            style={styles(theme).illustrationImage}
+                            source={require('../../../assets/images/screens/login/illustration.png')}
+                        />
                         
                         <View style={{ padding: 13 }}>
+                            <Text></Text>
                             <PhoneInput 
                                 defaultValue={this.state.phone}
                                 defaultCode="CD"
@@ -109,13 +115,18 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                                 withDarkTheme={true}
                             />
                             <HelperText type="error" visible={true}>{this.state.errorMessage}</HelperText>
+                            <HelperText type="info" visible={true}>Vous recevrez un SMS ou email au cas ou un compte existe avec une adresse email rattaché à ce numero.</HelperText>
                             <Text></Text>
+
+                            <ActivityIndicator animating={this.state.isLoading} />
+
+                            {/* <Text></Text>
                             <View>
                                 <Text></Text>
                                 <Button
                                     icon="login" 
                                     mode="contained"
-                                    style={{ marginTop: -25, padding: 6,backgroundColor:theme.colors.primary }} 
+                                    style={{ marginTop: -25, padding: 6, backgroundColor: theme.colors.primary, borderRadius: 15 }} 
                                     labelStyle={{color: "#fff"}}
                                     loading={this.state.isLoading}
                                     disabled={this.state.phone == null && true}
@@ -123,8 +134,16 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                                     { translation?.t('messages.authenticate') }
 
                                 </Button>
-                            </View>
+                            </View> */}
+                            
                         </View>
+
+                        <FAB
+                            icon="arrow-right-circle-outline"
+                            style={styles(theme).fab}
+                            onPress={() => this.setState({ isConfirmDialogVisible: true })}
+                            disabled={this.state.phone == null && true}
+                        />
                         <DialogModal 
                             title={`${ translation?.t('messages.confirmation') }`}
                             content={<Paragraph>{this.state.phone}: { translation?.t('auth.confirmPhone') }?</Paragraph>} 
@@ -156,6 +175,18 @@ const styles = (theme: ReturnType<typeof appTheme>) => StyleSheet.create({
         height: 80,
         backgroundColor: theme.colors.primary,
         flexDirection: "row",
+    },
+    illustrationImage:{
+        width: "100%",
+        height: 230,
+        resizeMode: "cover"
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 70,
+        backgroundColor: theme.colors.primary
     },
 });
 
