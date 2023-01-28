@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import MapView, {  LatLng, Polyline as MPolyline } from 'react-native-maps';
+import { StyleSheet, View } from "react-native";
+import MapView, {  LatLng, Polyline as MPolyline, Marker } from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
 
-const Map = () => {
+interface MapProps{
+    origin: LatLng;
+    destination: LatLng;
+    position: LatLng;
+}
+
+const Map = ({ origin, destination, position }: MapProps) => {
 
     const GOOGLE_MAPS_API_KEY: string = 'AIzaSyAYNauIpdpsYQ9S_fBz1O_QWtR3bn_d_VI';
 
@@ -30,18 +37,21 @@ const Map = () => {
     }
 
     useEffect(() => {
-        getDirections("40.1884979, 29.061018", "41.0082, 28.9784");
+        getDirections(`${origin.latitude}, ${origin.longitude}`, `${destination.latitude}, ${destination.longitude}`);
     }, [null])
 
     return(
         <MapView
             initialRegion={{
-                latitude:41.0082, 
-                longitude:28.9784, 
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
+                latitude: position.latitude, 
+                longitude: position.longitude, 
+                latitudeDelta: 1,
+                longitudeDelta: 1
             }}
             style={{ flex: 1 }}>
+            <View style={styles.markerFixed}>
+                <Marker coordinate={position} />
+            </View>
             <MPolyline
                 coordinates={coords}
                 strokeWidth={3}
@@ -50,5 +60,16 @@ const Map = () => {
     )
 
 }
+
+const styles = StyleSheet.create({
+    markerFixed: {
+      left: "50%",
+      marginLeft: -24,
+      marginTop: -48,
+      position: "absolute",
+      top: "50%",
+    },
+ 
+  });
 
 export default Map;

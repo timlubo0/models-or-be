@@ -13,6 +13,7 @@ import OrderDetailsScreen from '../screens/order/OrderDetailsScreen';
 import TimelineScreen from '../screens/order/TimelineScreen';
 import NewPayModeScreen from '../screens/paymentMethods/NewPayModeScreen';
 import PaymentPushScreen from '../screens/payment/PaymentPushScreen';
+import OrdersScreen from '../screens/order/OrdersScreen';
 
 const RootStack = createStackNavigator<RootStackParamList>();
 
@@ -32,6 +33,7 @@ function StackNavigator() {
       <RootStack.Screen name="TimelineScreen" component={TimelineScreen} options={{ headerShown: false }} />
       <RootStack.Screen name="NewPayModeScreen" component={NewPayModeScreen} options={{ headerShown: false }} />
       <RootStack.Screen name="PaymentPushScreen" component={PaymentPushScreen} options={{ headerShown: false }} />
+      <RootStack.Screen name="OrdersScreen" component={OrdersScreen} options={{ headerShown: false }} />
     </RootStack.Navigator>
   );
 }

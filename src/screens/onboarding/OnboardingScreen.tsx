@@ -94,14 +94,14 @@ class OnBoardingScreen extends React.Component<OnBoardingScreenProps & ScreenPro
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.onBackHandler
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackHandler
+        );
     }
 
     componentWillUnmount() {
-        // this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
     }
 
     render(){

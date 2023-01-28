@@ -73,14 +73,14 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.onBackHandler
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackHandler
+        );
     }
 
     componentWillUnmount() {
-        //this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
     }
 
     render(){
@@ -115,7 +115,7 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                                 withDarkTheme={true}
                             />
                             <HelperText type="error" visible={true}>{this.state.errorMessage}</HelperText>
-                            <HelperText type="info" visible={true}>Vous recevrez un SMS ou email au cas ou un compte existe avec une adresse email rattaché à ce numero.</HelperText>
+                            <HelperText type="info" visible={true}>Vous recevrez un SMS ou un email utilisé lors de la création de votre compte.</HelperText>
                             <Text></Text>
 
                             <ActivityIndicator animating={this.state.isLoading} />

@@ -69,9 +69,9 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
 
         this.setState({ isResendLoading: true });
 
-        const credentials = {
-            phone: this.props.route.params.phone
-        };
+        const { phone } = this.props.route.params;
+
+        await this.authService.requestForOTP(phone);
 
         this.setState({ isResendLoading: false });
         
@@ -83,14 +83,14 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.onBackHandler
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackHandler
+        );
     }
 
     componentWillUnmount() {
-        //this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
     }
 
     render(){

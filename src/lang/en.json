@@ -55,6 +55,10 @@
             "checkout": {
                 "title": "Payment",
                 "description": "complete your payment"
+            },
+            "orders": {
+                "title": "Parcels",
+                "description": "Your Parcels"
             }
         },
         "submit": "Send",

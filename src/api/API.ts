@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 class API{
 
-  private baseUrl: string = 'http://192.168.88.25:3333/api';
+  private baseUrl: string = 'http://192.168.88.253:3333/api';
 
   public async get(url: string, authorization?: string) {
     try {

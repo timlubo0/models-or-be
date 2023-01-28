@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { View, ImageBackground, StyleSheet, StatusBar  } from 'react-native';
+import { View, ImageBackground, StyleSheet, StatusBar, BackHandler  } from 'react-native';
 import { Card, withTheme, ActivityIndicator  } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { RootStackParamList } from '../../navigation/types/RootStackParamList';
@@ -15,19 +15,24 @@ import LidoCallCenter from './components/LidoCallCenter';
 import { ITimeline } from './types/types';
 import API from '../../api/API';
 import moment from 'moment';
+import { LatLng } from 'react-native-maps';
 
 type OrderDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'TimelineScreen'> & ScreenProps;
+type TimelineScreenState = { data: Array<ITimeline>; isLoading: boolean; origin: LatLng; destination: LatLng; position: LatLng; };
 
-class TimelineScreen extends React.Component<OrderDetailsScreenProps, {data: Array<ITimeline>; isLoading: boolean}>{
+class TimelineScreen extends React.Component<OrderDetailsScreenProps, TimelineScreenState>{
 
-    public state: Readonly<{ data: Array<ITimeline>; isLoading: boolean}>;
+    public state: Readonly<TimelineScreenState>;
     private api: API;
 
     constructor(props: OrderDetailsScreenProps){
         super(props);
         this.state = {
             data: [],
-            isLoading: false
+            isLoading: false,
+            origin: { latitude: 0, longitude: 0 },
+            destination: { latitude: 0, longitude: 0 },
+            position: { latitude: 0, longitude: 0 },
         };
         this.api = new API();
     }
@@ -41,6 +46,13 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, {data: Arr
         const response = await this.api.get(`get_package_by_order_id/${order.id}`);
 
         if(response.pack !== undefined){
+
+            const { originCity, destinationCity, city } = response.pack;
+
+            this.setState({ origin: { latitude: originCity.latitude, longitude: originCity.longitude } });
+            this.setState({ destination: { latitude: destinationCity.latitude, longitude: destinationCity.longitude } });
+            this.setState({ position: { latitude: city?.latitude, longitude: city?.longitude } });
+
             this.setState({
                 data: response.pack.packageStory.map((history: any) => {
                     return {
@@ -61,20 +73,21 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, {data: Arr
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.backAction
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.backAction
+        );
         this.loadPackage();
     }
 
     componentWillUnmount() {
-        //this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.backAction);
     }
 
     render(){
         //const { order } = this.props.route.params;
         const { theme, navigation } = this.props;
+        const { origin, destination, position } = this.state;
         
         return(
             <View style={styles(theme).container}>
@@ -86,7 +99,11 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, {data: Arr
                         style={{ width: "100%", height: "106%" }}>
 
                         <ScreenNavBar screenName="orderTimeline" navigation={navigation} icon="arrow-left" />
-                        <Map />
+                        
+                        {
+                            (position.latitude !== 0 && position.longitude !== 0 && position.latitude !== null && position.longitude !== null && position.latitude !== undefined && position.longitude !== undefined) &&
+                            <Map origin={origin} destination={destination} position={position} />
+                        }
 
                         <LidoCallCenter />
 

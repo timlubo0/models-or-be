@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, StatusBar, ImageBackground } from 'react-native';
+import { View, StyleSheet, StatusBar, ImageBackground, BackHandler } from 'react-native';
 import { withTheme, Card, Button, Text, TextInput } from "react-native-paper";
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -75,8 +75,23 @@ class NewPayModeScreen extends React.Component<ScreenProps & NewPayModeScreenPro
     this.setState({ isLoading: false });
   }
 
+  backAction = () => {
+    this.props.navigation.goBack();
+    return true;
+  }
+
   componentDidMount(){
+    
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.backAction
+    );
+
     this.getPayModes();
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.backAction);
   }
 
   render(){

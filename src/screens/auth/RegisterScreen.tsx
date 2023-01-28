@@ -72,16 +72,16 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.onBackHandler
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackHandler
+        );
 
         this.setState({ phone: this.props.route.params.phone });
     }
 
     componentWillUnmount() {
-        // this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
     }
 
     render(){

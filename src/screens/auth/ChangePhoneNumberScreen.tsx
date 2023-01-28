@@ -72,14 +72,14 @@ class ChangePhoneNumberScreen extends React.Component<ChangePhoneNumberScreenPro
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.onBackHandler
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackHandler
+        );
     }
 
     componentWillUnmount() {
-        // this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
     }
 
     render(){

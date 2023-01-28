@@ -53,19 +53,19 @@ class HomeScreen extends React.Component<HomeScreenProps & ScreenProps, HomeStat
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.onBackHandler
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackHandler
+        );
     }
 
     componentWillUnmount() {
-        //this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackHandler);
     }
 
     render(){
 
-        const { theme, translation, navigation } = this.props;
+        const { theme, navigation } = this.props;
 
         return(
             <View style={styles(theme).container}>
@@ -93,10 +93,13 @@ class HomeScreen extends React.Component<HomeScreenProps & ScreenProps, HomeStat
                         </View>
                     </Card>
                 </View>
-                <ListHeader title="Colis recent" iconTitle="voir tout" onIconPress={() => {}} />
+
+                <ListHeader title="Colis recent" iconTitle="voir tout" onIconPress={() => navigation.navigate('OrdersScreen')} />
+
                 <View style={{ padding: 12, marginBottom: 280 }}>
                     <Orders navigation={navigation} />
                 </View>
+
             </View>
         );
     }

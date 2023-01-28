@@ -14,4 +14,5 @@ export type RootStackParamList = {
     TimelineScreen: { order: IOrder };
     NewPayModeScreen: undefined;
     PaymentPushScreen: { order: IOrder };
+    OrdersScreen: undefined;
 }

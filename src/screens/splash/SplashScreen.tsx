@@ -59,15 +59,15 @@ class SplashScreen extends React.Component<SplashScreenProps>{
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.backAction
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.backAction
+        );
         setTimeout(() => { this.loadUser()}, 5000);
     }
 
     componentWillUnmount() {
-        //this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.backAction);
     }
 
     render(){

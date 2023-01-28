@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
-import { View, ImageBackground , StyleSheet, FlatList, StatusBar  } from 'react-native';
+import { View, ImageBackground , StyleSheet, FlatList, StatusBar, BackHandler  } from 'react-native';
 import { Badge, Card, Avatar, Divider, List, Title, Text, withTheme, Button } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { RootStackParamList } from '../../navigation/types/RootStackParamList';
@@ -125,14 +125,14 @@ class OrderDetailsScreen extends React.Component<OrderDetailsScreenProps, {data:
     }
 
     componentDidMount(){
-        // this.backHandler = BackHandler.addEventListener(
-        //     "hardwareBackPress",
-        //     this.backAction
-        // );
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.backAction
+        );
     }
 
     componentWillUnmount() {
-        //this.backHandler.remove();
+        BackHandler.removeEventListener('hardwareBackPress', this.backAction);
     }
 
     render(){

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar, BackHandler } from 'react-native';
 import { withTheme, Card, Button, Text, Title, List, Divider } from "react-native-paper";
 import { connect } from 'react-redux'; 
 import API from "../../api/API";
@@ -85,8 +85,21 @@ class PaymentPushScreen extends React.Component<PaymentPushScreenProps, PaymentP
 
     }
 
+    backAction = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
+
     componentDidMount(){
+        BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.backAction
+        );
         this.loadPaymentMethods();
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.backAction);
     }
 
     render(){

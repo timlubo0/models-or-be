@@ -55,6 +55,10 @@
             "checkout": {
                 "title": "Paiement",
                 "description": "complétez votre paiement"
+            },
+            "orders": {
+                "title": "Vos Colis",
+                "description": "Tout vos colis"
             }
         },
         "submit": "Envoyer",
