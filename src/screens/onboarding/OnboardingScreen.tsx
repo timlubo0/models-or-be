@@ -42,7 +42,7 @@ class OnBoardingScreen extends React.Component<OnBoardingScreenProps & ScreenPro
 
     onNext = (screenIndex: number) => { 
         screenIndex !== 3 && this.setState({ activeScreen: screenIndex });
-        screenIndex == 3 && this.props.navigation.navigate("LoginScreen");
+        screenIndex === 3 && this.props.navigation.navigate("LoginScreen");
     }
 
     renderActiveScreen = (screenIndex: number) => {

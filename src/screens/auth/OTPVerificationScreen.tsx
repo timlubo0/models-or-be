@@ -5,7 +5,7 @@ import { withTheme, Card, Button, Text, HelperText, FAB, ActivityIndicator } fro
 import { connect } from 'react-redux';
 import CircleCountDown from "../../components/CircleCountDown";
 import Constants from 'expo-constants';
-import { OTPScreenState, ErrorState } from "../../interfaces/AuthInterface";
+import { OTPScreenState, ErrorState, IError } from "../../interfaces/AuthInterface";
 import appTheme from "../../theme/appTheme";
 import { AppDispatch, RootState } from "../../store/store";
 import { ScreenProps } from "../../interfaces/ScreenPropsInterface";
@@ -16,6 +16,7 @@ import AuthService from "../../services/AuthService";
 import { User } from "../../store/interfaces/ReducersInterfaces";
 import { withUseTranslation } from "../../hoc/withUseTranslation";
 import ScreenNavBar from "../../components/ScreenNavBar";
+import ErrorView from "../../components/ErrorView";
 
 type OTPVerificationProps = NativeStackScreenProps<RootStackParamList, 'OTPVerificationScreen'> & {dispatch: AppDispatch};
 
@@ -46,9 +47,9 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
 
         const newPhone: string | undefined = this.props.route.params.newPhone;
         
-        const response: {status: boolean; user: User} | any = await this.authService.authenticate(this.props.route.params.phone, this.state.otpCode, newPhone);
+        const response: {status: boolean; user: User; errors?: IError[] | IError } | undefined = await this.authService.authenticate(this.props.route.params.phone, this.state.otpCode, newPhone);
 
-        if(response.status !== undefined && response.status == true){
+        if(response?.status !== undefined && response.status === true){
 
             const action = { type: UserActionType.REGISTER_USER, value:  response.user };
             this.props.dispatch(action);
@@ -59,8 +60,8 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
         }
 
         this.setState({ isLoading: false });
-
-        Array.isArray(response?.errors) ? this.setState({ errors: response?.errors }) : this.setState({ errors: [response.errors] });
+        this.setState({ errors: response?.errors });
+        
         typeof response?.errors === 'string' && this.setState({ errorMessage: response.errors });
 
     }
@@ -119,7 +120,7 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                                 onCodeChange={(code: unknown) => this.setState({ otpCode: String(code) })}
                                 theme={theme}
                             />
-                            <Text></Text>
+                            <Text/>
 
                             <View>
                             
@@ -134,33 +135,27 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
 
                                 </Button> */}
 
-                                <HelperText type="info" visible={true}>Vérifiez vos SMS ou votre boite email.</HelperText>
+                                <HelperText type="info" visible={true}>Vérifiez vos SMS ou votre boite Email.</HelperText>
 
                                 <ActivityIndicator animating={this.state.isLoading} />
 
                                 {
-                                    this.state.errors?.map((error, index) => {
-                                        return(
-                                            <HelperText key={index} type="error" visible={true}>
-                                                { error.message }
-                                                <HelperText type="error" visible={true}>{ error.sqlMessage }</HelperText>
-                                                <HelperText type="error" visible={true}>{ error.responseText }</HelperText>
-                                            </HelperText>
-                                        )
-                                    })
+                                    Array.isArray(this.state.errors) ? this.state.errors?.map((error) => {
+                                        return <ErrorView key={`${error.code}`} error={error} />
+                                    }): <ErrorView key={`${this.state.errors?.code}`} error={this.state.errors} />
                                 }
 
                                 <View style={{ marginTop:30 }}>
                                     <Text style={{ textAlign: "center" , color: theme.dark ? "#000" : theme.colors.text}}>{ translation?.t('messages.screens.otp.noOTP') } ? </Text>
                                 </View>
-                                <Text></Text>
+                                <Text/>
                                 <View style={{ alignItems: "center" }}>
                                     <CircleCountDown 
                                         props={this.props} 
                                         duration={45} 
                                         onCountDown={() => this.setState({ isResendDisabled: false })}/>
                                 </View>
-                                <Text></Text>
+                                <Text/>
                                 <Button 
                                     mode="outlined"
                                     color={theme.colors.accent}
@@ -176,7 +171,7 @@ class OTPVerificationScreen extends React.Component<OTPVerificationProps & Scree
                             icon="check-outline"
                             style={styles(theme).fab}
                             onPress={() => this.authenticate() }
-                            disabled={this.state.otpCode !== null && this.state.otpCode.length == 5 && this.state.isLoading == false ? false : true}
+                            disabled={this.state.otpCode !== null && this.state.otpCode.length === 5 && this.state.isLoading === false ? false : true}
                         />
                     </ImageBackground>
                 </Card>

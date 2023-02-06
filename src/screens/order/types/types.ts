@@ -21,11 +21,29 @@ export interface IOrder{
         name: string;
         salePointName: string;
         quantity: number;
-    }>
+    }>;
+    parcel?: IParcel
 }
 
 export interface ITimeline{
     time: string; 
     title: string;
     description: string;
+}
+
+export interface ICity{
+    name: string;
+    longitude: number;
+    latitude: number;
+}
+
+export interface IParcel{
+    origin: ICity; 
+    destination: ICity;
+    position: ICity;
+    packageStory: Array<{
+        time: string;
+        title: string;
+        description: string;
+    }>
 }

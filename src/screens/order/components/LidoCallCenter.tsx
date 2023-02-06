@@ -7,17 +7,10 @@ const LidoCallCenter = () => {
     const theme = useTheme();
 
     const  makeCall = () => {
-        let phoneNumber: string = '';
-
-        if (Platform.OS !== 'android') {
-            phoneNumber = `telprompt:+243974384112`;
-        }
-        else  {
-            phoneNumber = `tel:+243974384112`;
-        }
+        const phoneNumber: string = (Platform.OS !== 'android') ? "telprompt:+243974384112" : "tel:+243974384112";
 
         Linking.canOpenURL(phoneNumber)
-        .then(supported => {
+        .then(() => {
             return Linking.openURL(phoneNumber);
         })
         .catch(err => console.log(err));

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, StatusBar, ImageBackground, Image, BackHandler } from 'react-native';
-import { withTheme, Card, Text, List, Divider, TextInput, Button } from "react-native-paper";
+import { withTheme, Card, Text, List, Divider, TextInput, Button, Paragraph } from "react-native-paper";
 import { connect } from 'react-redux'; 
 import Constants from 'expo-constants';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -15,7 +15,8 @@ import { UserActionType } from "../../store/reducers/userReducer";
 import Toast from 'react-native-root-toast';
 import { withUseTranslation } from "../../hoc/withUseTranslation";
 import ScreenNavBar from "../../components/ScreenNavBar";
-const appConfig = require('../../../app.json');
+import DialogModal from "../../components/DialogModal";
+import LocalStorage from "../../storage/LocalStorage";
 
 type AccountScreenProps = NativeStackScreenProps<RootStackParamList, 'AccountScreen'> & { user: User; dispatch: AppDispatch };
 
@@ -32,7 +33,8 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
             username: '',
             phone: '',
             email: '',
-            isLoading: false
+            isLoading: false,
+            isConfirmDialogVisible: false
         };
         this.authService = new AuthService();
     }
@@ -51,9 +53,9 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
 
         if(data.name !== '' && data.name.length >= 3){
 
-            const response: { status: boolean; user: User } | any = await this.authService.update(data, user.accessToken);
+            const response: { status: boolean; user: User } | undefined = await this.authService.update(data, user.accessToken);
 
-            if(response.status !== undefined && response.status == true){
+            if(response?.status !== undefined && response?.status === true){
 
                 const action = { type: UserActionType.REGISTER_USER, value:  response.user };
                 this.props.dispatch(action);
@@ -80,7 +82,7 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
 
         if(user !== undefined){
 
-            user.accessToken == undefined && this.props.navigation.navigate("LoginScreen");
+            user.accessToken === undefined && this.props.navigation.navigate("LoginScreen");
 
             user.name && this.setState({username: user.name});
             user.phone && this.setState({phone: user.phone});
@@ -88,6 +90,14 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
 
         }
 
+    }
+
+    deleteAccount = async () => {
+        const localStorage: LocalStorage = new LocalStorage(this.props);
+
+        await localStorage.deleteData('user_data');
+
+        this.props.navigation.navigate('LoginScreen');
     }
 
 
@@ -132,7 +142,7 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
                     />
                     
                     <View style={{ padding: 13 }}>
-                        <Text></Text>
+                        <Text/>
                         <TextInput
                             placeholder={`${translation?.t('messages.firstName')} ${translation?.t('messages.and')}} ${translation?.t('messages.lastName')}...`}
                             value={this.state.username}
@@ -162,17 +172,17 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
                             left={<TextInput.Icon name="email" />}
                             right={<TextInput.Icon name="square-edit-outline" />}
                             style={styles(theme).textInput} />
-                        <Divider/>
+                        {/* <Divider/>
                         <Divider/>
                         <List.Item
                             title={ translation?.t('messages.screens.account.changeLanguage') }
                             left={props => <List.Icon {...props} icon="translate" />}
                             onPress={() => this.props.navigation.navigate("LanguagePickerScreen") }
-                        />
+                        /> */}
                         <Divider/>
-                        <Text></Text>
+                        <Text/>
                         <Divider/>
-                        <Text></Text>
+                        <Text/>
                         
                         <Divider/>
                         <Button 
@@ -183,10 +193,27 @@ class AccountScreen extends React.Component<AccountScreenProps & ScreenProps, Re
                         >
                             { translation?.t('messages.submit') }
                         </Button>
+                        <Text/>
+                        <Button 
+                            mode="outlined"
+                            onPress={ () => this.setState({ isConfirmDialogVisible: true }) } 
+                            disabled={this.state.isLoading ? true : false}
+                            loading={this.state.isLoading}
+                            color="red"
+                        >
+                            Supprimer mon compte
+                        </Button>
                     </View>
+
+                    <DialogModal 
+                        title="Suppression du compte"
+                        content={<Paragraph>Les données sauvegardées sur votre téléphone seront supprimer, continuer?</Paragraph>} 
+                        isVisible={this.state.isConfirmDialogVisible}
+                        onConfirm={ this.deleteAccount }
+                        onCancel={ () => this.setState({ isConfirmDialogVisible: false }) } 
+                    />
                 </ImageBackground>
             </Card>
-            <Text style={ styles(theme).appNameText }>{appConfig.expo.name}</Text>
         </View>
         );
     }

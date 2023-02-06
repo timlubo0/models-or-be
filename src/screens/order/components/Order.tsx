@@ -23,7 +23,7 @@ const Order = ({ navigation, order }: OrderProps) => {
                 <View>
                     <View style={{ padding: 2 }}>
                         <Text style={{ marginLeft: 12 }}>Localisation: </Text>
-                        <Badge style={{ backgroundColor: theme.colors.primary, marginTop: -20 }}>Shanghai</Badge>
+                        <Badge style={{ backgroundColor: theme.colors.primary, marginTop: -20 }}>{order.parcel?.position.name}</Badge>
                     </View>
 
                     <Card.Title 

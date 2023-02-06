@@ -71,7 +71,7 @@ class HomeScreen extends React.Component<HomeScreenProps & ScreenProps, HomeStat
             <View style={styles(theme).container}>
                 <StatusBar backgroundColor={theme.colors.primary} /> 
                 <Navbar navigation={navigation}/>
-                <View style={{ alignItems: 'center' }}>
+                <View style={{ alignItems: 'center', marginTop: 50 }}>
                     <Card style={styles(theme).card}>
                         <Title style={{ color: "#fff" }}>Tracker votre colis</Title>
                         <Text style={{ color: "#fff"}}>Entrez votre numéro de tracking du colis</Text>
@@ -96,7 +96,7 @@ class HomeScreen extends React.Component<HomeScreenProps & ScreenProps, HomeStat
 
                 <ListHeader title="Colis recent" iconTitle="voir tout" onIconPress={() => navigation.navigate('OrdersScreen')} />
 
-                <View style={{ padding: 12, marginBottom: 280 }}>
+                <View style={{ padding: 12, marginBottom: 310 }}>
                     <Orders navigation={navigation} />
                 </View>
 

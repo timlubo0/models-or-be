@@ -10,7 +10,7 @@ import { RootState } from '../../store/store';
 import ScreenNavBar from '../../components/ScreenNavBar';
 import Constants from 'expo-constants';
 import Timeline from 'react-native-timeline-flatlist';
-import Map from './components/Map';
+import Maps from './components/Maps';
 import LidoCallCenter from './components/LidoCallCenter';
 import { ITimeline } from './types/types';
 import API from '../../api/API';
@@ -19,6 +19,7 @@ import { LatLng } from 'react-native-maps';
 
 type OrderDetailsScreenProps = NativeStackScreenProps<RootStackParamList, 'TimelineScreen'> & ScreenProps;
 type TimelineScreenState = { data: Array<ITimeline>; isLoading: boolean; origin: LatLng; destination: LatLng; position: LatLng; };
+type PackageStory = {createdAt: string; status: {name: string}; cities: {name: string}};
 
 class TimelineScreen extends React.Component<OrderDetailsScreenProps, TimelineScreenState>{
 
@@ -47,14 +48,14 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, TimelineSc
 
         if(response.pack !== undefined){
 
-            const { originCity, destinationCity, city } = response.pack;
+            const { originCity, destinationCity, city, packageStory } = response.pack;
 
             this.setState({ origin: { latitude: originCity.latitude, longitude: originCity.longitude } });
             this.setState({ destination: { latitude: destinationCity.latitude, longitude: destinationCity.longitude } });
             this.setState({ position: { latitude: city?.latitude, longitude: city?.longitude } });
 
             this.setState({
-                data: response.pack.packageStory.map((history: any) => {
+                data: packageStory.map((history: PackageStory) => {
                     return {
                         time: moment(history.createdAt).format('DD/MM/YYYY H:h:s'),
                         title: history.status.name,
@@ -85,9 +86,8 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, TimelineSc
     }
 
     render(){
-        //const { order } = this.props.route.params;
+        const { data, origin, destination, position } = this.state;
         const { theme, navigation } = this.props;
-        const { origin, destination, position } = this.state;
         
         return(
             <View style={styles(theme).container}>
@@ -102,7 +102,7 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, TimelineSc
                         
                         {
                             (position.latitude !== 0 && position.longitude !== 0 && position.latitude !== null && position.longitude !== null && position.latitude !== undefined && position.longitude !== undefined) &&
-                            <Map origin={origin} destination={destination} position={position} />
+                            <Maps origin={origin} destination={destination} position={position} />
                         }
 
                         <LidoCallCenter />
@@ -112,7 +112,7 @@ class TimelineScreen extends React.Component<OrderDetailsScreenProps, TimelineSc
                         <View style={{ flex: 1, padding: 23, marginBottom: 35 }}>
                             
                             <Timeline
-                                data={this.state.data}
+                                data={data}
                                 circleSize={20}
                                 circleColor={theme.colors.primary}
                                 lineColor={theme.colors.accent}

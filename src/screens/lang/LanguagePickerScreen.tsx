@@ -19,11 +19,11 @@ const LanguagePickerScreen = (props: LanguagePickerScreenProps) => {
 
 
   const data: ILanguagePicker[] = [
-    {
-      title: t('messages.languages.en'),
-      imageSource: require("../../../assets/images/languages/usa.png"),
-      language: "en",
-    },
+    // {
+    //   title: t('messages.languages.en'),
+    //   imageSource: require("../../../assets/images/languages/usa.png"),
+    //   language: "en",
+    // },
     {
       title: t('messages.languages.fr'),
       imageSource: require("../../../assets/images/languages/fr.png"),

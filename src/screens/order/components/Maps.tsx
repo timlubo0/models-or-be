@@ -9,19 +9,19 @@ interface MapProps{
     position: LatLng;
 }
 
-const Map = ({ origin, destination, position }: MapProps) => {
+const Maps = ({ origin, destination, position }: MapProps) => {
 
     const GOOGLE_MAPS_API_KEY: string = 'AIzaSyAYNauIpdpsYQ9S_fBz1O_QWtR3bn_d_VI';
 
     const [coords, setCoords] = useState<LatLng[]>([]);
 
-    const getDirections = async (startLoc: any, destinationLoc: any) => {
+    const getDirections = async (startLoc: string, destinationLoc: string) => {
         try {
             let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }&key=${GOOGLE_MAPS_API_KEY}`);
             let respJson = await resp.json();
             
             let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-            let coords = points.map((point: any) => {
+            let coords = points.map((point: String[]) => {
                 return  {
                     latitude : point[0],
                     longitude : point[1]
@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
  
   });
 
-export default Map;
+export default Maps;

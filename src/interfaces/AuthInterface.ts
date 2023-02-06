@@ -23,6 +23,7 @@ export interface RegisterScreenState{
     isLoading: boolean;
     isShow?: boolean;
     errorMessage?: string;
+    isConfirmDialogVisible: boolean;
 }
 
 export interface OTPVerificationScreenProps{
@@ -33,17 +34,19 @@ export interface OTPVerificationScreenProps{
 }
 
 export interface ErrorState{
-    errors?: Array<{
-        args?: any; 
-        filed?: string; 
-        message?: string; 
-        rule?: string;
-        code?: string;
-        errno?: string;
-        sql?: string;
-        sqlMessage?: string;
-        sqlState?: string;
-        guard?: string;
-        responseText?: string;
-    }>;
+    errors?: Array<IError> | IError;
+}
+
+export interface IError{
+    args?: undefined; 
+    filed?: string; 
+    message?: string; 
+    rule?: string;
+    code?: string;
+    errno?: string;
+    sql?: string;
+    sqlMessage?: string;
+    sqlState?: string;
+    guard?: string;
+    responseText?: string;
 }

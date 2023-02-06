@@ -44,7 +44,7 @@ class OrderDetailsScreen extends React.Component<OrderDetailsScreenProps, {data:
                     <Divider/>
                     <List.Item
                         title={"Statut"}
-                        right={() => <Badge style={{ backgroundColor: order.status?.id !== 2 ? theme.colors.error : '#43A047' }}>{order.status?.name}</Badge>}
+                        right={() => <Badge style={{ backgroundColor: order.status?.id !== 3 ? theme.colors.error : '#43A047' }}>{order.status?.name}</Badge>}
                     />
                     <Divider/>
                     <List.Item

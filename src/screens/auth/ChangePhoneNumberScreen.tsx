@@ -54,7 +54,7 @@ class ChangePhoneNumberScreen extends React.Component<ChangePhoneNumberScreenPro
 
                 const response = await this.authService.requestForChangePhoneOTP(currentPhone, newPhone);
             
-                if(response.status !== undefined && response.status == true){
+                if(response.status !== undefined && response.status === true){
                     this.props.navigation.navigate("OTPVerificationScreen", { phone: currentPhone, newPhone: newPhone });
                 }
 
@@ -108,16 +108,16 @@ class ChangePhoneNumberScreen extends React.Component<ChangePhoneNumberScreenPro
                                 withDarkTheme={true}
                             />
                             <HelperText type="error" visible={true}>{this.state.errorMessage}</HelperText>
-                            <Text></Text>
+                            <Text/>
                             <View>
-                                <Text></Text>
+                                <Text/>
                                 <Button
                                     icon="login" 
                                     mode="contained"
                                     style={{ marginTop: -25, padding: 6, backgroundColor: theme.colors.primary }} 
                                     labelStyle={{ color: "#fff" }}
                                     loading={this.state.isLoading}
-                                    disabled={this.state.phone == null && true}
+                                    disabled={this.state.phone == null}
                                     onPress={() => this.setState({ isConfirmDialogVisible: true })}>
                                     { translation?.t('messages.confirm') }
 

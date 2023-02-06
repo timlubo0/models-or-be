@@ -4,7 +4,7 @@ import { withTheme, Card, Button, Text, TextInput, HelperText, FAB, ActivityIndi
 import { connect } from 'react-redux';
 import Constants from 'expo-constants';
 import { ScreenProps } from "../../interfaces/ScreenPropsInterface";
-import { RegisterScreenState, ErrorState } from "../../interfaces/AuthInterface";
+import { RegisterScreenState, ErrorState, IError } from "../../interfaces/AuthInterface";
 import appTheme from "../../theme/appTheme";
 import { RootState } from "../../store/store";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -13,6 +13,7 @@ import AuthService from "../../services/AuthService";
 import { User } from "../../store/interfaces/ReducersInterfaces";
 import { withUseTranslation } from "../../hoc/withUseTranslation";
 import ScreenNavBar from "../../components/ScreenNavBar";
+import ErrorView from "../../components/ErrorView";
 
 type RegisterVerificationProps = NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>;
 
@@ -30,7 +31,8 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
             isLoading: false,
             isShow: false,
             errorMessage: "",
-            errors: []
+            errors: [],
+            isConfirmDialogVisible: false
     
         };
         this.authService = new AuthService();
@@ -50,9 +52,9 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
             role_id: 3,
         };
 
-        const response: { status: boolean, user: User } | any = await this.authService.register(user);
+        const response: { status: boolean, user: User, errors?: IError[] | IError } | undefined = await this.authService.register(user);
 
-        if(response.status !== undefined && response.status == true){
+        if(response?.status !== undefined && response.status === true){
 
             this.props.navigation.navigate('OTPVerificationScreen', {phone: user.phone});
 
@@ -60,8 +62,8 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
         }
 
         this.setState({isLoading: false});
+        this.setState({ errors: response?.errors });
 
-        Array.isArray(response?.errors) ? this.setState({ errors: response?.errors }) : this.setState({ errors: [response.errors] });
         typeof response?.errors === 'string' && this.setState({ errorMessage: response.errors });
         
     }
@@ -111,24 +113,18 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
                                 value={this.state.username}
                                 onChangeText={text => this.setState({ username: text })}
                             />
-                            <Text></Text>
+                            <Text/>
                             <TextInput
                                 label={`${ translation?.t('messages.email') }...`}
                                 mode="outlined"
                                 value={this.state.email}
                                 onChangeText={text => this.setState({ email: text })}
                             />
-                            <Text></Text>
+                            <Text/>
                             {
-                                this.state.errors?.map((error, index) => {
-                                    return(
-                                        <HelperText key={index} type="error" visible={true}>
-                                            { error.message }
-                                            <HelperText type="error" visible={true}>{ error.sqlMessage }</HelperText>
-                                            <HelperText type="error" visible={true}>{ this.state.errorMessage }</HelperText>
-                                        </HelperText>
-                                    )
-                                })
+                                Array.isArray(this.state.errors) ? this.state.errors?.map((error) => {
+                                    return <ErrorView key={`${error.code}`} error={error} />
+                                }): <ErrorView key={`${this.state.errors?.code}`} error={this.state.errors} />
                             }
                             <HelperText type="info" visible={true}>Rassurez-vouz que votre email est valide, vous recevrez un SMS ou email au cas ou un compte existe avec une adresse email rattaché à ce numero.</HelperText>
                             <ActivityIndicator animating={this.state.isLoading} />
@@ -137,7 +133,7 @@ class RegisterScreen extends React.Component<RegisterVerificationProps & ScreenP
                             icon="arrow-right-circle-outline"
                             style={styles(theme).fab}
                             onPress={() => this.register() }
-                            disabled={(this.state.username == null || this.state.isLoading) && true}
+                            disabled={this.state.username == null || this.state.isLoading}
                         />
                     </ImageBackground>
                 </Card>

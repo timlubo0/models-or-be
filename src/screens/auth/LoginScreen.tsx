@@ -44,16 +44,16 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
 
             this.setState({ isLoading: true });
 
-            const response: {status: boolean} | any = await this.authService.requestForOTP(phone);
+            const response: {status: boolean} | undefined = await this.authService.requestForOTP(phone);
 
-            if(response.status !== undefined && response.status == true){
+            this.setState({ isLoading: false });
+
+            if(response?.status !== undefined && response.status === true){
 
                 this.props.navigation.navigate("OTPVerificationScreen", {phone: phone});
 
                 return null;
             }
-
-            this.setState({ isLoading: false });
 
             this.props.navigation.navigate("RegisterScreen", {phone: phone});
 
@@ -63,7 +63,7 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
 
         const { translation } = this.props;
 
-        phone == '' && this.setState({ errorMessage: `${ translation?.t('auth.checkPhone') }!` });
+        phone === '' && this.setState({ errorMessage: `${ translation?.t('auth.checkPhone') }!` });
 
     }
 
@@ -104,7 +104,7 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                         />
                         
                         <View style={{ padding: 13 }}>
-                            <Text></Text>
+                            <Text/>
                             <PhoneInput 
                                 defaultValue={this.state.phone}
                                 defaultCode="CD"
@@ -116,7 +116,7 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                             />
                             <HelperText type="error" visible={true}>{this.state.errorMessage}</HelperText>
                             <HelperText type="info" visible={true}>Vous recevrez un SMS ou un email utilisé lors de la création de votre compte.</HelperText>
-                            <Text></Text>
+                            <Text/>
 
                             <ActivityIndicator animating={this.state.isLoading} />
 
@@ -142,7 +142,7 @@ class LoginScreen extends React.Component<LoginScreenProps & ScreenProps, LoginS
                             icon="arrow-right-circle-outline"
                             style={styles(theme).fab}
                             onPress={() => this.setState({ isConfirmDialogVisible: true })}
-                            disabled={this.state.phone == null && true}
+                            disabled={this.state.phone == null}
                         />
                         <DialogModal 
                             title={`${ translation?.t('messages.confirmation') }`}
