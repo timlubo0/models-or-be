@@ -16,7 +16,7 @@ export const custom = {
 
 const appTheme = () => {
   const colorScheme: ColorSchemeName = Appearance.getColorScheme();
-  const isDarkMode: boolean = colorScheme === 'dark' ? true : false;
+  const isDarkMode: boolean = true;
   const [isThemeDark] = React.useState(isDarkMode);
 
   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
@@ -26,8 +26,8 @@ const appTheme = () => {
     roundness: 2,
     colors: {
       ...theme.colors,
-      primary: '#04299C',
-      accent: '#FFC422',
+      primary: '#FFBA02',
+      accent: '#1A202C',
       ...custom
     },
   };

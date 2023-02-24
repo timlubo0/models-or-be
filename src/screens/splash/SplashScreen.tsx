@@ -35,7 +35,7 @@ class SplashScreen extends React.Component<SplashScreenProps>{
 
         const { preferences, dispatch } = this.props;
 
-        preferences.language == undefined && dispatch({ type: UserPreferencesActionType.ADD, value: {language: deviceLanguage[0]} })
+        preferences.language === undefined && dispatch({ type: UserPreferencesActionType.ADD, value: {language: deviceLanguage[0]} })
 
         const userAction: UserActionProps | null = await this.splashService.getUserDataAction();
 
@@ -75,14 +75,11 @@ class SplashScreen extends React.Component<SplashScreenProps>{
 
         return(
             <View style={styles(theme).container}>
-                <StatusBar backgroundColor={theme.colors.primary} /> 
+                <StatusBar backgroundColor={theme.colors.accent} /> 
                 <Card style={styles(theme).card}>
-                    <ImageBackground  source={!theme.dark ? require('../../../assets/images/bg/onboarding.jpg') : require('../../../assets/images/bg/bg-dark.jpg')} style={styles(theme).bgImage}>
+                    <ImageBackground  source={!theme.dark ? require('../../../assets/images/bg/onboarding.jpeg') : require('../../../assets/images/bg/bg-dark.jpg')} style={styles(theme).bgImage}>
                         <View style={{ alignItems: "center" }}>
-                           <Image 
-                                source={!theme.dark ? require('../../../assets/adaptive-icon.png') : require('../../../assets/adaptive-icon-white.png')}
-                                style={{ width: 200, height: 200, justifyContent: 'center', marginTop: 250, alignItems: 'center', resizeMode: 'contain'}}
-                           />     
+                              
                         </View>
                     </ImageBackground>
                 </Card>

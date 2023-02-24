@@ -1,11 +1,12 @@
 import React from "react";
 import { View, StyleSheet, ImageBackground, Image } from "react-native";
-import { withTheme, Card, Text, Button, Paragraph, Title, FAB } from "react-native-paper";
+import { withTheme, Card, Text, Button, Paragraph, Title, FAB, Avatar, Divider, IconButton } from "react-native-paper";
 import * as Animatable from 'react-native-animatable';
 import { OnboardingProps } from "../../../interfaces/OnboardingInterface";
 import appTheme from "../../../theme/appTheme";
 import { ScreenProps } from "../../../interfaces/ScreenPropsInterface";
 import { withUseTranslation } from "../../../hoc/withUseTranslation";
+import Dots from "../../../components/Dots";
 
 type OnBoardingProps = ScreenProps & OnboardingProps;
 
@@ -24,39 +25,92 @@ class OnBoarding extends React.Component<OnBoardingProps, {activeIndex: number}>
         const { theme, illustration, title, description, active, onNext, navigation, translation } = this.props;
 
         return(
-            <View>
-                <Card style={styles(theme).card}>
-                    <ImageBackground  source={require("../../../../assets/images/bg/onboarding.jpg")} style={styles(theme).bgImage}>
-                        <Animatable.View
-                            animation="fadeInRight"
-                            duration={500}>
-                            <View style={{ alignItems: "center" }}>
-                                <Image 
-                                    source={illustration}
-                                    style={{margin: -80, resizeMode: 'contain', height: 600}}
-                                />
-                                <Title style={{ marginTop: -40, fontWeight: "bold", color: '#091E58' }}>{title}</Title>
-                                <Paragraph style={{ textAlign:"center", padding: 25, color: theme.dark ? "#000" : theme.colors.text }}>{description}</Paragraph>
-                                
+            <View style={{ flex: 1 }}>
+                <ImageBackground  source={require("../../../../assets/images/bg/onboarding.jpeg")} style={styles(theme).bgImage}>
+                    <View style={{ width: '100%', height: 600, backgroundColor: '#000', opacity: 0.74 }} >
+                        <IconButton
+                            icon="chevron-left"
+                            size={40}
+                            style={{ marginTop: 35, marginLeft: -10 }}
+                            onPress={() => console.log('Pressed')}
+                        />
+                    </View>
+                    <Animatable.View
+                        animation="fadeInRight"
+                        duration={500}>
+                        <View style={{ flex: 1, alignItems: "center", marginTop: -540 }}>
+
+                            <Avatar.Image 
+                                size={125} 
+                                source={require('../../../../assets/images/screens/onboarding/avatar.jpg')} />
+
+                            <Title style={{ color: "#fff" }}>Lois Adjetey Annan</Title>
+
+                            <View style={{ flex: 1, flexDirection: 'row', margin: 20 }}>
+                                <View style={{ flex: 1 }}>
+                                    <Title style={{ fontWeight: 'bold', color: '#fff' }}>137</Title>
+                                    <Text>Projects</Text>
+                                    <Divider style={{ transform: [{rotate: '-270deg'}], height: 2, width: 55, marginLeft: 55, marginTop: -25 }} />
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <Title style={{ fontWeight: 'bold', color: '#fff' }}>124</Title>
+                                    <Text>Followers</Text>
+                                    <Divider style={{ transform: [{rotate: '-270deg'}], height: 2, width: 55, marginLeft: 55, marginTop: -25 }} />
+                                </View>
+                                <View style={{ flex: 1 }}>
+                                    <Button style={{ borderRadius: 20, marginTop: 10 }} mode="contained" onPress={() => console.log('Pressed')}>
+                                        <Text>Follow</Text>
+                                    </Button>
+                                </View>
                             </View>
                             
-                        </Animatable.View>
+                        </View>
+                        
+                    </Animatable.View>
 
-                        <FAB
-                            icon="arrow-right-circle-outline"
-                            style={styles(theme).fab}
-                            onPress={() => navigation.navigate("LoginScreen")}
-                        />
+                    <Card style={styles(theme).card}>
+                        <View style={{ transform: [{rotate: "100deg"}], marginTop: 100, marginLeft: 235 }}>
+                            <View style={{ alignItems: 'center' }}>
+                                <Title style={{  fontWeight: "bold", color: theme.colors.primary, textAlign: 'center' }}>{title}</Title>
+                                <Button color="#24B6AD" style={{ width: 150 }} mode="contained" onPress={() => console.log('Pressed')}>
+                                    <Text style={{ fontWeight: 'bold' }}>Discovered</Text>
+                                </Button>
 
-                        <Button 
-                            mode="outlined"
-                            color={theme.colors.primary}
-                            style={styles(theme).skipButton} 
-                            onPress={() => navigation.navigate("LoginScreen")}>
-                            {  translation?.t('messages.skip') }
-                        </Button>
-                    </ImageBackground>
-                </Card>
+                                <Text />
+
+                                <Paragraph>A Platform that provides many kinds of the best and most trusted fashion</Paragraph>
+
+                                <View style={{ marginTop: 20, marginLeft: -70 }}>
+                                    <FAB
+                                        icon="arrow-right"
+                                        style={styles(theme).fab}
+                                        color="#fff"
+                                        onPress={() => console.log('Pressed')}
+                                    />
+                                </View>
+
+                                <View style={{ marginTop: 90 }}>
+                                    <Dots value={3} active={2} />
+                                </View>
+                                
+                            </View>
+                        </View>
+                    </Card>
+{/* 
+                    <FAB
+                        icon="arrow-right-circle-outline"
+                        style={styles(theme).fab}
+                        onPress={() => navigation.navigate("LoginScreen")}
+                    />
+
+                    <Button 
+                        mode="outlined"
+                        color={theme.colors.primary}
+                        style={styles(theme).skipButton} 
+                        onPress={() => navigation.navigate("LoginScreen")}>
+                        {  translation?.t('messages.skip') }
+                    </Button> */}
+                </ImageBackground>
                 
             </View>
         )
@@ -71,11 +125,13 @@ const styles = (theme: ReturnType<typeof appTheme>) => StyleSheet.create({
         backgroundColor: theme.colors.primary
     },
     card: {
-        paddingBottom: '20%',
-        borderBottomLeftRadius: 22, 
-        borderBottomRightRadius: 22,
-        height: "100%",
-        overflow: 'hidden'
+        borderBottomRightRadius: 40,
+        width: '150%', 
+        height: 420, 
+        backgroundColor: theme.colors.accent, 
+        transform: [{rotate: '-100deg'}],
+        marginTop: -120,
+        marginLeft: -90
     },
     appNameText: {
         color: theme.colors.text,
@@ -86,13 +142,11 @@ const styles = (theme: ReturnType<typeof appTheme>) => StyleSheet.create({
     bgImage: {
         width: "100%", 
         height: "108%",
-        resizeMode: 'cover'
+        resizeMode: 'contain',
     },
     fab: {
         position: 'absolute',
-        margin: 16,
-        right: 0,
-        bottom: 0,
+        padding: 3,
         backgroundColor: theme.colors.primary
     },
     skipButton: {

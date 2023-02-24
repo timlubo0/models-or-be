@@ -22,7 +22,7 @@ class OnBoardingScreen extends React.Component<OnBoardingScreenProps & ScreenPro
             activeScreen: 0,
             screens: {
                 first: {
-                    title: props.translation?.t('messages.screens.onboarding.title'),
+                    title: 'Discover Models or Be',
                     description: `${appConfig.expo.name} ${props.translation?.t('messages.screens.onboarding.description')}`,
                     illustration: require('../../../assets/images/screens/onboarding/onboarding.png'),
                 },
@@ -109,7 +109,7 @@ class OnBoardingScreen extends React.Component<OnBoardingScreenProps & ScreenPro
 
         return(
             <View style={styles(theme).container}>
-                <StatusBar backgroundColor={theme.colors.primary} />
+                <StatusBar backgroundColor={theme.colors.accent} />
                 <>
                     {this.renderActiveScreen(this.state.activeScreen)}
                 </>

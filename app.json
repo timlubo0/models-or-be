@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Pixel Track",
-    "slug": "pixel-track",
+    "name": "Models Be",
+    "slug": "models-be",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.syns.pixel",
+      "bundleIdentifier": "com.tim.models",
       "buildNumber": "1.0.1"
     },
     "android": {
@@ -28,7 +28,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "versionCode": 1,
-      "package": "com.pixeltrack"
+      "package": "com.models"
     },
     "web": {
       "favicon": "./assets/favicon.png"
