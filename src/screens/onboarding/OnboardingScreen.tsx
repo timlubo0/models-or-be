@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, StatusBar, BackHandler} from "react-native";
 import { withTheme } from "react-native-paper";
 import Onboarding from "./components/Onboarding";
-const appConfig = require('../../../app.json');
 import { OnboardingScreenState } from "../../interfaces/OnboardingInterface";
 import appTheme from "../../theme/appTheme";
 import { ScreenProps } from "../../interfaces/ScreenPropsInterface";
@@ -23,18 +22,8 @@ class OnBoardingScreen extends React.Component<OnBoardingScreenProps & ScreenPro
             screens: {
                 first: {
                     title: 'Discover Models or Be',
-                    description: `${appConfig.expo.name} ${props.translation?.t('messages.screens.onboarding.description')}`,
-                    illustration: require('../../../assets/images/screens/onboarding/onboarding.png'),
-                },
-                second: {
-                    title: "𝗣𝗮𝗶𝗲𝗺𝗲𝗻𝘁 𝗺𝗼𝗯𝗶𝗹𝗲",
-                    description: "Pas besoin d'une carte VISA, vous utilisez les moyens de paiement mobile pour effectuer vos transactions.",
-                    illustration: require('../../../assets/images/screens/onboarding/logo.png'),
-                },
-                third: {
-                    title: "𝗦𝘂ivi de vos transactions",
-                    description: "Vous suivez le cycle de vie complet d'une transaction, de sa création jusqu'à sa validation.",
-                    illustration: require('../../../assets/images/screens/onboarding/logo.png'),
+                    description: 'A Platform that provides many kinds of the best and most trusted fashion',
+                    illustration: "",
                 }
             }
         }

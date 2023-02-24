@@ -5,8 +5,8 @@ export enum UserPreferencesActionType{
 }
 
 export interface UserPreferencesActionProps{
-    type: UserPreferencesActionType; 
-    value?: Preferences;
+  type: UserPreferencesActionType; 
+  value?: Preferences;
 }
 
 const initialState: {preferences: Preferences} = { preferences: {} };

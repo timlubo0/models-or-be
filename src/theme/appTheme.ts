@@ -15,7 +15,6 @@ export const custom = {
 }
 
 const appTheme = () => {
-  const colorScheme: ColorSchemeName = Appearance.getColorScheme();
   const isDarkMode: boolean = true;
   const [isThemeDark] = React.useState(isDarkMode);
 

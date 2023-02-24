@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ImageBackground, Image } from "react-native";
+import { View, StyleSheet, ImageBackground } from "react-native";
 import { withTheme, Card, Text, Button, Paragraph, Title, FAB, Avatar, Divider, IconButton } from "react-native-paper";
 import * as Animatable from 'react-native-animatable';
 import { OnboardingProps } from "../../../interfaces/OnboardingInterface";
@@ -22,7 +22,7 @@ class OnBoarding extends React.Component<OnBoardingProps, {activeIndex: number}>
     }
 
     render(){
-        const { theme, illustration, title, description, active, onNext, navigation, translation } = this.props;
+        const { theme, title, description } = this.props;
 
         return(
             <View style={{ flex: 1 }}>
@@ -78,7 +78,7 @@ class OnBoarding extends React.Component<OnBoardingProps, {activeIndex: number}>
 
                                 <Text />
 
-                                <Paragraph>A Platform that provides many kinds of the best and most trusted fashion</Paragraph>
+                                <Paragraph>{ description }</Paragraph>
 
                                 <View style={{ marginTop: 20, marginLeft: -70 }}>
                                     <FAB
@@ -96,20 +96,7 @@ class OnBoarding extends React.Component<OnBoardingProps, {activeIndex: number}>
                             </View>
                         </View>
                     </Card>
-{/* 
-                    <FAB
-                        icon="arrow-right-circle-outline"
-                        style={styles(theme).fab}
-                        onPress={() => navigation.navigate("LoginScreen")}
-                    />
 
-                    <Button 
-                        mode="outlined"
-                        color={theme.colors.primary}
-                        style={styles(theme).skipButton} 
-                        onPress={() => navigation.navigate("LoginScreen")}>
-                        {  translation?.t('messages.skip') }
-                    </Button> */}
                 </ImageBackground>
                 
             </View>

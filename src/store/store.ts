@@ -10,10 +10,10 @@ const persistConfig = {
 };
 
 export const Store = configureStore({
-    reducer: {
-      user: userReducer,
-      preferences: persistReducer(persistConfig, userPreferencesReducer),
-    },
+  reducer: {
+    user: userReducer,
+    preferences: persistReducer(persistConfig, userPreferencesReducer),
+  },
 });
 
 export type RootState = ReturnType<typeof Store.getState>;
